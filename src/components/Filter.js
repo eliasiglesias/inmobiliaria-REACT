@@ -2,7 +2,7 @@ import React from "react";
 
 const Filter = (props) => {
 	return (
-		<select className="custom-select" onChange={props.change}>
+		<select name={props.name} className="custom-select" onChange={props.change}>
 			<option selected disabled>
 				{props.title}
 			</option>

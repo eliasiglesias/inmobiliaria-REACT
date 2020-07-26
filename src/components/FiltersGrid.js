@@ -1,55 +1,43 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Row, Col } from "reactstrap";
 import Filter from "./Filter";
-import PropertiesContext from "../context/PropertiesContext";
-import getTypeFilter from "../aux-functions/getTypeFilter";
-import getRoomsFilter from "../aux-functions/getRoomsFilter";
-import getBathroomsFilter from "../aux-functions/getBathroomsFilter";
-import getParkingFilter from "../aux-functions/getParkingFilter";
+import FilterContext from "../context/FilterContext";
 
 const FilterGrid = (props) => {
-	const properties = useContext(PropertiesContext);
-	const [filters, setFilters] = useState([]);
-
-	useEffect(() => {
-		if (properties.properties) {
-			setFilters({
-				type: getTypeFilter(properties.properties),
-				rooms: getRoomsFilter(properties.properties),
-				bathrooms: getBathroomsFilter(properties.properties),
-				parking: getParkingFilter(properties.properties),
-			});
-		}
-	}, [properties]);
+	const filterContext = useContext(FilterContext);
 
 	return (
 		<Row className="d-flex justify-content-around mx-5 px-5 mt-5">
 			<Col>
 				<Filter
+					name="type"
 					title="Tipo"
-					options={filters.type}
-					change={props.changeFilter.changeType}
+					options={filterContext.filterList.type}
+					change={props.changeFilter}
 				/>
 			</Col>
 			<Col>
 				<Filter
+					name="rooms"
 					title="Habitaciones"
-					options={filters.rooms}
-					change={props.changeFilter.changeRooms}
+					options={filterContext.filterList.rooms}
+					change={props.changeFilter}
 				/>
 			</Col>
 			<Col>
 				<Filter
+					name="bathrooms"
 					title="Baños"
-					options={filters.bathrooms}
-					change={props.changeFilter.changeBathrooms}
+					options={filterContext.filterList.bathrooms}
+					change={props.changeFilter}
 				/>
 			</Col>
 			<Col>
 				<Filter
+					name="parking"
 					title="Parking"
-					options={filters.parking}
-					change={props.changeFilter.changeParking}
+					options={filterContext.filterList.parking}
+					change={props.changeFilter}
 				/>
 			</Col>
 		</Row>
