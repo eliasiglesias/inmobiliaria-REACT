@@ -7,9 +7,9 @@ import FilterContext from "./context/FilterContext";
 function App() {
 	const [filters, setFilters] = useState({
 		type: "",
-		rooms: 0,
-		bathrooms: 0,
-		parking: 0,
+		rooms: -1,
+		bathrooms: -1,
+		parking: -1,
 	});
 
 	const [filtersList, setFiltersList] = useState({
@@ -19,8 +19,16 @@ function App() {
 		parking: [],
 	});
 
+	const [flagsFilters, setFlagsFilters] = useState({
+		type: false,
+		rooms: false,
+		bathrooms: false,
+		parking: false,
+	});
+
 	const changeFilterSelect = (event) => {
 		setFilters({ ...filters, [event.target.name]: event.target.value });
+		setFlagsFilters({ ...flagsFilters, [event.target.name]: true });
 	};
 
 	return (
@@ -32,9 +40,12 @@ function App() {
 					filterList: filtersList,
 					changeFilter: changeFilterSelect,
 					setFilterList: setFiltersList,
+					setFilters: setFilters,
+					flagsFilters: flagsFilters,
+					setFlagsFilters: setFlagsFilters,
 				}}
 			>
-				<FilterGrid changeFilter={changeFilterSelect} />
+				<FilterGrid />
 				<PropertiesGrid />
 			</FilterContext.Provider>
 		</div>

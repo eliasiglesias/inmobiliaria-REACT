@@ -7,26 +7,33 @@ import getRoomsFilter from "../aux-functions/getRoomsFilter";
 import getBathroomsFilter from "../aux-functions/getBathroomsFilter";
 import getParkingFilter from "../aux-functions/getParkingFilter";
 import getApiInfo from "../api/getApiInfo";
+import checkInitialFilters from "../aux-functions/checkInitialFilters";
 
 const PropertiesGrid = () => {
 	const [properties, setProperties] = useState();
 	const [propertiesList, setPropertiesList] = useState();
 	const filterContext = useContext(FilterContext);
-	const { filter } = useContext(FilterContext);
 
 	useEffect(() => {
 		async function getApi() {
 			const data = await getApiInfo();
 			setProperties(data);
+			setPropertiesList(data);
 		}
 		getApi();
 	}, []);
 
 	useEffect(() => {
-		if (properties) {
-			setPropertiesList(getFilteredProperties(properties, filter));
+		if (properties && checkInitialFilters(filterContext.filter)) {
+			setPropertiesList(
+				getFilteredProperties(properties, filterContext.filter)
+			);
+		} else if (propertiesList) {
+			setPropertiesList(
+				getFilteredProperties(propertiesList, filterContext.filter)
+			);
 		}
-	}, [filter, properties]);
+	}, [filterContext.filter]);
 
 	useEffect(() => {
 		if (propertiesList) {
